@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pranjit Medhi | Java Backend Developer</title>
+    <title>Pranjit Medhi| Java Backend Developer</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,16 +17,26 @@
     <nav class="navbar">
       <div class="container nav-content">
         <a href="#" class="logo">Pranjit Medhi</a>
-        <ul class="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
+
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#about" class="nav-link">About</a></li>
+          <li><a href="#skills" class="nav-link">Skills</a></li>
+          <li><a href="#projects" class="nav-link">Projects</a></li>
+          <li><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
-        <button id="theme-toggle" aria-label="Toggle dark/light mode">
-          <span class="sun">☀️</span>
-          <span class="moon">🌙</span>
-        </button>
+
+        <div class="nav-right">
+          <button id="theme-toggle" aria-label="Toggle dark/light mode">
+            <span class="sun">☀️</span>
+            <span class="moon">🌙</span>
+          </button>
+
+          <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
       </div>
     </nav>
 
@@ -34,8 +44,10 @@
     <header class="hero">
       <div class="container">
         <p class="greeting">Hello, I'm</p>
-        <h1>Your Name</h1>
-        <h2>Java Backend Developer</h2>
+        <h1>Pranjit Medhi</h1>
+        <h2 class="typing-text">
+          <span id="typed-text"></span><span class="cursor">|</span>
+        </h2>
         <p class="tagline">
           Building scalable, reliable backend systems with
           <strong>Java</strong>, <strong>Spring Boot</strong>,
@@ -86,11 +98,20 @@
     <section id="projects" class="section">
       <div class="container">
         <h2 class="section-title">Projects</h2>
-        <div class="projects-grid">
-          <!-- Project Card 1 -->
-          <article class="project-card">
+
+        <!-- Filter Buttons -->
+        <div class="filter-buttons">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="java">Java</button>
+          <button class="filter-btn" data-filter="spring">Spring Boot</button>
+          <button class="filter-btn" data-filter="aws">AWS</button>
+          <button class="filter-btn" data-filter="mysql">MySQL</button>
+        </div>
+
+        <div class="projects-grid" id="projects-grid">
+          <!-- Project 1 -->
+          <article class="project-card" data-tech="java spring mysql">
             <div class="project-image">
-              <!-- Replace with your screenshot later -->
               <div class="placeholder">E-Commerce API</div>
             </div>
             <div class="project-content">
@@ -106,14 +127,18 @@
                 <span>JWT</span>
               </div>
               <div class="project-links">
-                <a href="#" target="_blank" rel="noopener">GitHub</a>
-                <a href="#" target="_blank" rel="noopener">Live Demo</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  GitHub <span class="external-icon">↗</span>
+                </a>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  Live Demo <span class="external-icon">↗</span>
+                </a>
               </div>
             </div>
           </article>
 
-          <!-- Project Card 2 -->
-          <article class="project-card">
+          <!-- Project 2 -->
+          <article class="project-card" data-tech="spring mysql aws">
             <div class="project-image">
               <div class="placeholder">Task Manager</div>
             </div>
@@ -130,14 +155,18 @@
                 <span>Docker</span>
               </div>
               <div class="project-links">
-                <a href="#" target="_blank" rel="noopener">GitHub</a>
-                <a href="#" target="_blank" rel="noopener">Live Demo</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  GitHub <span class="external-icon">↗</span>
+                </a>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  Live Demo <span class="external-icon">↗</span>
+                </a>
               </div>
             </div>
           </article>
 
-          <!-- Project Card 3 -->
-          <article class="project-card">
+          <!-- Project 3 -->
+          <article class="project-card" data-tech="java spring aws">
             <div class="project-image">
               <div class="placeholder">Auth Service</div>
             </div>
@@ -154,13 +183,42 @@
                 <span>AWS</span>
               </div>
               <div class="project-links">
-                <a href="#" target="_blank" rel="noopener">GitHub</a>
-                <a href="#" target="_blank" rel="noopener">Live Demo</a>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  GitHub <span class="external-icon">↗</span>
+                </a>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  Live Demo <span class="external-icon">↗</span>
+                </a>
               </div>
             </div>
           </article>
 
-          <!-- Add more cards as needed -->
+          <!-- Project 4 (extra example) -->
+          <article class="project-card" data-tech="java aws">
+            <div class="project-image">
+              <div class="placeholder">File Storage</div>
+            </div>
+            <div class="project-content">
+              <h3>AWS File Storage Service</h3>
+              <p>
+                Secure file upload/download service using S3 with Spring Boot
+                and pre-signed URLs.
+              </p>
+              <div class="tech-tags">
+                <span>Java</span>
+                <span>Spring Boot</span>
+                <span>AWS S3</span>
+              </div>
+              <div class="project-links">
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  GitHub <span class="external-icon">↗</span>
+                </a>
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  Live Demo <span class="external-icon">↗</span>
+                </a>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -173,34 +231,39 @@
           I'm currently open to backend opportunities and interesting projects.
           Feel free to reach out!
         </p>
-        <div class="contact-links">
-          <a href="mailto:your.email@example.com" class="btn primary"
-            >Email Me</a
-          >
-          <a
-            href="https://github.com/yourusername"
-            target="_blank"
-            rel="noopener"
-            class="btn secondary"
-            >GitHub</a
-          >
-          <a
-            href="https://linkedin.com/in/yourusername"
-            target="_blank"
-            rel="noopener"
-            class="btn secondary"
-            >LinkedIn</a
-          >
+
+        <div class="contact-actions">
+          <div class="contact-links">
+            <a
+              href="https://github.com/yourusername"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn secondary"
+            >
+              GitHub <span class="external-icon">↗</span>
+            </a>
+            <a
+              href="https://linkedin.com/in/yourusername"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn secondary"
+            >
+              LinkedIn <span class="external-icon">↗</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
     <footer>
       <div class="container">
-        <p>© 2026 Your Name. Built with HTML, CSS & JavaScript.</p>
+        <p>© 2026 Pranjit Medhi..</p>
       </div>
     </footer>
 
-    <script src="./index.js"></script>
+    <!-- Back to Top Button -->
+    <button id="back-to-top" aria-label="Back to top">↑</button>
+
+    <script src="index.js"></script>
   </body>
 </html>

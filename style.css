@@ -1,6 +1,6 @@
 :root {
   /* Light theme */
-  --bg: #f8fafc;
+  --bg: #f1f5f9;
   --bg-secondary: #ffffff;
   --text: #0f172a;
   --text-secondary: #475569;
@@ -10,6 +10,13 @@
   --card-shadow:
     0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
   --nav-bg: rgba(255, 255, 255, 0.85);
+
+  /* Light gradient */
+  --page-gradient:
+    radial-gradient(at 0% 0%, #dbeafe 0px, transparent 50%),
+    radial-gradient(at 100% 0%, #ccfbf1 0px, transparent 50%),
+    radial-gradient(at 100% 100%, #e0e7ff 0px, transparent 50%),
+    radial-gradient(at 0% 100%, #fce7f3 0px, transparent 50%), #f8fafc;
 }
 
 [data-theme="dark"] {
@@ -22,6 +29,13 @@
   --border: #334155;
   --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.4);
   --nav-bg: rgba(15, 23, 42, 0.9);
+
+  /* Dark gradient (similar to the one I suggested earlier) */
+  --page-gradient:
+    radial-gradient(at 0% 0%, #1e3a8a 0px, transparent 50%),
+    radial-gradient(at 100% 0%, #0f766e 0px, transparent 50%),
+    radial-gradient(at 100% 100%, #1e293b 0px, transparent 50%),
+    radial-gradient(at 0% 100%, #312e81 0px, transparent 50%), #0f172a;
 }
 
 * {
@@ -40,14 +54,15 @@ body {
     system-ui,
     -apple-system,
     sans-serif;
-  background-color: var(--bg);
+  background: var(--page-gradient);
+  background-attachment: fixed; /* nice parallax-like effect */
   color: var(--text);
   line-height: 1.6;
   transition:
-    background-color 0.3s ease,
+    background 0.4s ease,
     color 0.3s ease;
+  min-height: 100vh;
 }
-
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -62,7 +77,6 @@ body {
   background: var(--nav-bg);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  transition: background 0.3s ease;
 }
 
 .nav-content {
@@ -90,10 +104,28 @@ body {
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s;
+  position: relative;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
   color: var(--accent);
+}
+
+.nav-links a.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent);
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 #theme-toggle {
@@ -119,6 +151,36 @@ body {
   display: none;
 }
 
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.hamburger span {
+  width: 24px;
+  height: 2px;
+  background: var(--text);
+  transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
 /* ========== Hero ========== */
 .hero {
   padding: 6rem 0 4rem;
@@ -134,14 +196,33 @@ body {
 .hero h1 {
   font-size: clamp(2.5rem, 6vw, 3.5rem);
   font-weight: 700;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
-.hero h2 {
+.typing-text {
   font-size: 1.5rem;
   font-weight: 500;
   color: var(--text-secondary);
   margin-bottom: 1.5rem;
+  min-height: 2rem;
+}
+
+.cursor {
+  display: inline-block;
+  animation: blink 1s infinite;
+  color: var(--accent);
+  font-weight: 300;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .tagline {
@@ -160,12 +241,17 @@ body {
 
 /* ========== Buttons ========== */
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   padding: 0.75rem 1.75rem;
   border-radius: 8px;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
 .btn.primary {
@@ -234,6 +320,34 @@ body {
   transform: translateY(-2px);
 }
 
+/* ========== Project Filters ========== */
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.filter-btn {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
 /* ========== Projects ========== */
 .projects-grid {
   display: grid;
@@ -249,12 +363,17 @@ body {
   box-shadow: var(--card-shadow);
   transition:
     transform 0.25s ease,
-    box-shadow 0.25s ease;
+    box-shadow 0.25s ease,
+    opacity 0.3s ease;
+}
+
+.project-card.hidden {
+  display: none;
 }
 
 .project-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 20px -5px rgb(0 0 0 / 0.12);
+  box-shadow: 0 12px 20px -5px rgb(0 0 0 / 0.15);
 }
 
 .project-image {
@@ -313,10 +432,18 @@ body {
   text-decoration: none;
   font-weight: 600;
   font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 .project-links a:hover {
   text-decoration: underline;
+}
+
+.external-icon {
+  font-size: 0.85em;
+  opacity: 0.85;
 }
 
 /* ========== Contact ========== */
@@ -327,11 +454,35 @@ body {
   margin: 0 auto 2rem;
 }
 
+.contact-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.email-copy {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#email-text {
+  font-weight: 500;
+  color: var(--text);
+}
+
 .contact-links {
   display: flex;
   gap: 1rem;
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* ========== Footer ========== */
@@ -343,10 +494,64 @@ footer {
   border-top: 1px solid var(--border);
 }
 
+/* ========== Back to Top ========== */
+#back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 99;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+#back-to-top:hover {
+  background: var(--accent-hover);
+  transform: translateY(-3px);
+}
+
 /* ========== Responsive ========== */
 @media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
   .nav-links {
-    display: none; /* You can add a mobile menu later if needed */
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--bg-secondary);
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 0;
+    gap: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    transform: translateY(-150%);
+    transition: transform 0.3s ease;
+    z-index: 99;
+  }
+
+  .nav-links.active {
+    transform: translateY(0);
+  }
+
+  .nav-links a.active::after {
+    display: none;
   }
 
   .hero {
@@ -355,5 +560,10 @@ footer {
 
   .projects-grid {
     grid-template-columns: 1fr;
+  }
+
+  .email-copy {
+    flex-direction: column;
+    gap: 0.75rem;
   }
 }
